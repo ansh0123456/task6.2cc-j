@@ -3,13 +3,14 @@ pipeline {
     
     environment {
         EMAIL_RECIPIENT = 'ansh4764.be23@chitkara.edu.in'
-        USER_EMAIL = 'ansh4764.be23@chiutkara.edu.in'
+        USER_EMAIL = 'ansh4764.be23@chitkara.edu.in'
     }
 
     stages {
         stage('Build') {
             steps {
-                echo 'Building the application...'
+                echo 'Building the application using Maven...'
+                sh 'mvn clean package'  // Maven: A build automation tool for Java projects
             }
             post {
                 always {
@@ -22,7 +23,8 @@ pipeline {
 
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests...'
+                echo 'Running unit and integration tests using JUnit...'
+                sh 'mvn test'  // JUnit: A framework for writing and running unit tests in Java
             }
             post {
                 always {
@@ -35,7 +37,8 @@ pipeline {
 
         stage('Code Analysis') {
             steps {
-                echo 'Performing static code analysis...'
+                echo 'Performing static code analysis using SonarQube...'
+                sh 'mvn sonar:sonar'  // SonarQube: A tool for continuous code quality inspection
             }
             post {
                 always {
@@ -48,20 +51,22 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan...'
+                echo 'Performing security scan using OWASP Dependency Check...'
+                sh 'mvn dependency-check:check'  // OWASP Dependency Check: Identifies known vulnerabilities in dependencies
             }
             post {
                 always {
                     mail to: "${USER_EMAIL}",
                          subject: 'Security Scan Completed',
-                         body: 'The security scan has completed. Check the Jenkins logs for details.'
+                         body: 'The security scan has completed. Check Jenkins logs for details.'
                 }
             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to staging environment...'
+                echo 'Deploying to staging environment using Ansible...'
+                sh 'ansible-playbook deploy_staging.yml'  // Ansible: Automates application deployment and configuration management
             }
             post {
                 always {
@@ -74,7 +79,8 @@ pipeline {
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging...'
+                echo 'Running integration tests on staging using Selenium...'
+                sh 'pytest tests/integration'  // Selenium: A framework for automated testing of web applications
             }
             post {
                 always {
@@ -87,7 +93,8 @@ pipeline {
 
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to production...'
+                echo 'Deploying to production using Kubernetes...'
+                sh 'kubectl apply -f deployment.yaml'  // Kubernetes: Manages containerized applications across clusters
             }
             post {
                 always {
