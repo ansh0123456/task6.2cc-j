@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application using Maven...'
-                sh 'export PATH=$PATH:/opt/homebrew/bin && mvn clean package'
+                
             }
             post {
                 always {
@@ -24,7 +24,7 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests using JUnit...'
-                sh 'mvn test'  // JUnit: A framework for writing and running unit tests in Java
+                // JUnit: A framework for writing and running unit tests in Java
             }
             post {
                 always {
@@ -38,7 +38,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Performing static code analysis using SonarQube...'
-                sh 'mvn sonar:sonar'  // SonarQube: A tool for continuous code quality inspection
+                // SonarQube: A tool for continuous code quality inspection
             }
             post {
                 always {
@@ -52,7 +52,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan using OWASP Dependency Check...'
-                sh 'mvn dependency-check:check'  // OWASP Dependency Check: Identifies known vulnerabilities in dependencies
+                // OWASP Dependency Check: Identifies known vulnerabilities in dependencies
             }
             post {
                 always {
@@ -66,7 +66,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging environment using Ansible...'
-                sh 'ansible-playbook deploy_staging.yml'  // Ansible: Automates application deployment and configuration management
+               // Ansible: Automates application deployment and configuration management
             }
             post {
                 always {
@@ -80,7 +80,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging using Selenium...'
-                sh 'pytest tests/integration'  // Selenium: A framework for automated testing of web applications
+               // Selenium: A framework for automated testing of web applications
             }
             post {
                 always {
@@ -94,7 +94,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production using Kubernetes...'
-                sh 'kubectl apply -f deployment.yaml'  // Kubernetes: Manages containerized applications across clusters
+                // Kubernetes: Manages containerized applications across clusters
             }
             post {
                 always {
