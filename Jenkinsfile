@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application using Maven...'
-                sh 'mvn clean package'  // Maven: A build automation tool for Java projects
+                sh 'export PATH=$PATH:/opt/homebrew/bin && mvn clean package'
             }
             post {
                 always {
